@@ -1,0 +1,31 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: micro-worldnews
+  task:
+    execution:
+      pool:
+        core-size: 10
+        max-size: 20
+        queue-capacity: 5
+        allow-core-thread-timeout: true
+
+logging:
+  level:
+    com.microservices.worldnews.client.WorldNewsClient: DEBUG
+    org.springframework.scheduling.annotation: DEBUG
+    root: INFO
+
+feign:
+  client:
+    config:
+      worldNews:
+        url: https://World-News-API.proxy-production.allthingsdev.co
+        propagateAdditionalHeaders: true
+        propagateAuth: true
+        newHeaders:
+          x-apihub-key: P1gL1SH2bfFN94rOqeLGAaWoU3IkrCdl4YS4v2hwUp4Q3pniyL
+          x-apihub-host: World-News-API.allthingsdev.co
+          x-apihub-endpoint: b3165457-cc74-4cbb-b056-ff6aa2932955
+     
