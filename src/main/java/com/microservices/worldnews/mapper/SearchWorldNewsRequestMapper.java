@@ -1,10 +1,10 @@
-package com.microservices.worldnews.service.mapper;
+package com.microservices.worldnews.mapper;
 
 import java.util.Map;
 
 import com.microservices.worldnews.model.WorldNewsRequests;
-import com.microservices.worldnews.service.utils.Constants;
-import com.microservices.worldnews.service.utils.Utils;
+import com.microservices.worldnews.utils.Constants;
+import com.microservices.worldnews.utils.Utils;
 
 import lombok.Builder;
 

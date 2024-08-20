@@ -14,11 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.microservices.worldnews.client.WorldNewsClient;
+import com.microservices.worldnews.mapper.SearchWorldNewsRequestMapper;
 import com.microservices.worldnews.model.News;
 import com.microservices.worldnews.model.WorldNewsRequests;
 import com.microservices.worldnews.model.WorldNewsResponse;
 import com.microservices.worldnews.service.WorldNewsService;
-import com.microservices.worldnews.service.mapper.SearchWorldNewsRequestMapper;
 
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;

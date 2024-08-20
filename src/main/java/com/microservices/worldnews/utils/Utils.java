@@ -1,4 +1,4 @@
-package com.microservices.worldnews.service.utils;
+package com.microservices.worldnews.utils;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
