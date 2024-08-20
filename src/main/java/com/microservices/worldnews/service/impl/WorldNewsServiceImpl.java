@@ -15,8 +15,10 @@ import org.springframework.stereotype.Service;
 
 import com.microservices.worldnews.client.WorldNewsClient;
 import com.microservices.worldnews.model.News;
+import com.microservices.worldnews.model.WorldNewsRequests;
 import com.microservices.worldnews.model.WorldNewsResponse;
 import com.microservices.worldnews.service.WorldNewsService;
+import com.microservices.worldnews.service.mapper.SearchWorldNewsRequestMapper;
 
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
@@ -31,14 +33,13 @@ public class WorldNewsServiceImpl implements WorldNewsService {
 
 	@Override
 	public List<String> searchWorldNews(String offset) {
-
-		return syncStoreMultiThread();
+		List<String> requests = Arrays.asList("1", "20", "50", "40", "22", "14", "33");
+		return syncStoreMultiThread(requests);
 	}
 
-	private List<String> syncStoreMultiThread() {
+	private List<String> syncStoreMultiThread(List<String> requests) {
 
 		List<String> topNews = new ArrayList<>();
-		List<String> requests = Arrays.asList("1", "20", "30", "5", "25", "34");
 
 		int maxThreadsPerPool = 5;
 		int poolSize = (requests.size() >= maxThreadsPerPool) ? (requests.size() / maxThreadsPerPool) : 1;
@@ -57,7 +58,7 @@ public class WorldNewsServiceImpl implements WorldNewsService {
 					try {
 						// syncStoreFleetAccount(request, chunks.get(j), messageId, fleetManagerId,
 						// conversationId, date);
-						topNews.addAll(syncStoreNewsV2(requests.get(j)));
+						topNews.addAll(syncGetNews(requests.get(j)));
 					} catch (Exception e) {
 						log.error("Error during syncStoreNewsV2");
 					}
@@ -84,21 +85,14 @@ public class WorldNewsServiceImpl implements WorldNewsService {
 		return topNews;
 	}
 
-	public List<String> syncStoreNewsV2(String requestOffset) {
+	public List<String> syncGetNews(String offset) {
 
 		try {
-
-			WorldNewsResponse worldNewsResponse = worldNewsClient.searchWorldNews("war", "US", "en", "-0.8", "0.99",
-					"2022-04-22", "2024-04-24", "publish-time", "ASC", requestOffset, "10");
+			WorldNewsResponse worldNewsResponse = worldNewsClient
+					.searchWorldNews(SearchWorldNewsRequestMapper.worldNewsRequestMapper(offset));
 			return worldNewsResponse.getNews().stream().map(News::getTitle).collect(Collectors.toList());
 		} catch (Exception e) {
 			log.error("Async method have a error: ", e.getMessage());
-//			if (e.getCause() != null && !e.getCause().toString().equals(Constants.EMPTY_STRING)
-//					&& !e.getCause().toString().contains(Constants.CODE_ERROR_404)) {
-//				throw new BadRequestException(BadRequestException.Code.INVALIDBODY,
-//						"FleetAccountAndOfferDetailApi response with a error: " + e.getMessage());
-//
-//			}
 			throw new NullPointerException("hey sync call");
 		}
 	}
