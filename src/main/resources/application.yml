@@ -23,7 +23,7 @@ feign:
       worldNews:
         url: https://World-News-API.proxy-production.allthingsdev.co
         propagateAdditionalHeaders: true
-        propagateAuth: true
+        propagateAuth: false
         newHeaders:
           x-apihub-key: P1gL1SH2bfFN94rOqeLGAaWoU3IkrCdl4YS4v2hwUp4Q3pniyL
           x-apihub-host: World-News-API.allthingsdev.co
