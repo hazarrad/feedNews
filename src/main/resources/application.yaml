@@ -1,6 +1,7 @@
 server:
   port: 8080
 spring:
+  
   application:
     name: micro-worldnews
   task:
@@ -10,12 +11,22 @@ spring:
         max-size: 20
         queue-capacity: 5
         allow-core-thread-timeout: true
+  profiles:
+    active: local
+  mvc.throw-exception-if-no-handler-found: true
+  resources.add-mappings: false
 
 logging:
   level:
     com.microservices.worldnews.client.WorldNewsClient: DEBUG
+    com.microservices.worldnews.client.SummarizeTextClient: DEBUG
     org.springframework.scheduling.annotation: DEBUG
     root: INFO
+    
+tracing:
+  b3Propagation: true
+errorhandle:
+  errorMsgFormat: TMF
 
 feign:
   client:
@@ -28,4 +39,12 @@ feign:
           x-apihub-key: P1gL1SH2bfFN94rOqeLGAaWoU3IkrCdl4YS4v2hwUp4Q3pniyL
           x-apihub-host: World-News-API.allthingsdev.co
           x-apihub-endpoint: b3165457-cc74-4cbb-b056-ff6aa2932955
-     
+      summarizeText:
+        url: https://Content-and-Marketing-Summarize-Text.proxy-production.allthingsdev.co/api/v1/content/summarize
+        propagateAdditionalHeaders: true
+        propagateAuth: false
+        newHeaders:
+          x-apihub-key: P1gL1SH2bfFN94rOqeLGAaWoU3IkrCdl4YS4v2hwUp4Q3pniyL
+          x-apihub-host: Content-and-Marketing-Summarize-Text.allthingsdev.co
+          x-apihub-endpoint: 4e1ad662-7c82-4e29-a479-fb8d55f99b1d
+        
